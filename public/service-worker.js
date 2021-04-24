@@ -46,11 +46,12 @@ self.addEventListener('activate', function (e) {
   )
 });
 
-// listens for fetch even, logs URL of requested resource, defines how to respond to request
+// listens for fetch event, logs URL of requested resource, defines how to respond to request
 self.addEventListener('fetch', function (e) {
   console.log('fetch request: ' + e.request.url)
   e.respondWith(
     caches.match(e.request).then(function (res) {
+      
       if (res) {
         console.log('responding with cache: ' + e.request.url)
         return res
@@ -58,8 +59,9 @@ self.addEventListener('fetch', function (e) {
         console.log('file is not cached, fetching: ' + e.request.url)
         return fetch(e.request)
       }
-      //can be used instead of if else
-      // return req || fetch(e.req)
+      
+      //ES6 can be used instead of if else (this works!)
+      //return res || fetch(e.request)
     })
   )
 });
